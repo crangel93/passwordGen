@@ -1,0 +1,21 @@
+section {
+    box-sizing: border-box;
+    border: 1px solid blue;
+    width: 100%;
+    float: left;
+  }
+  
+  div {
+
+  }
+  
+  .left {
+    float: left;
+    background: pink;
+  }
+  
+  .right {
+    float: right;
+    width:100%;
+    background: cyan;
+  }

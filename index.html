@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    
+    <section>
+        <div class="left">
+            <form id="passwordGeneratorForm">
+                <label for="passwordLength">Password Length:</label><br>
+                <input type="number" id="passwordLength" name="passwordLength" min="1" max="100" value="10"><br>
+                <input type="checkbox" id="includeUppercase" name="includeUppercase" checked>
+                <label for="includeUppercase">Include Uppercase Letters</label><br>
+                <input type="checkbox" id="includeLowercase" name="includeLowercase" checked>
+                <label for="includeLowercase">Include Lowercase Letters</label><br>
+                <input type="checkbox" id="includeNumbers" name="includeNumbers" checked>
+                <label for="includeNumbers">Include Numbers</label><br>
+                <input type="checkbox" id="includeSymbols" name="includeSymbols" checked>
+                <label for="includeSymbols">Include Symbols</label><br>
+                <input type="button" value="Generate Password" onclick="generatePassword()">
+            </form>
+
+            <div class="right">
+                <!-- This will ve dom manipulated -->
+                <h1 style="float:left;">
+                    <center>Password:<div id="passwordDiv"></div>
+                        <!-- <button onclick="copyToClip()" value="Copy to Clipboard" id="passwordButton">Copy to Clipboard</button> -->
+                    </center>
+                </h1>
+                <p id="passwordOutput"></p>
+                <section>
+             
+            </div>
+        
+
+            <script>
+                var alphaLower = "abcdefghijklmnopqrstuvwxyz";
+                var alphaUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                var numberChar = "1234567890";
+                var symbolChar = "~!@#$%^&*()_+=-`;:'?/\"";
+                var password = "";
+
+                function generatePassword() {
+                    var length = document.getElementById("passwordLength").value;
+
+                    var uppercase = document.getElementById("includeUppercase").value;
+                    //Looping through to create a password based on the length
+                    //if i==0 and length is 0 index based
+                    //if length was 7
+                    //password would be loop 1=0 so it would be less than 7
+                    password = "";
+                    //creating the string to give the lower case characters to the password
+
+                    //same as line 30 but for upper case
+
+
+                    //I need to figure out how to do that thing where you can add "" into a string
+
+                    var randomChecked = 0;
+                    //this loops correctly
+                    var lowerBool = document.getElementById("includeLowercase").checked;
+                    var upperBool = document.getElementById("includeUppercase").checked;
+                    var numberBool = document.getElementById("includeNumbers").checked;
+                    var symbolBool = document.getElementById("includeSymbols").checked;
+
+                    if (lowerBool === true) {
+                        randomChecked = randomChecked + 1;
+
+                    } if (upperBool === true) {
+                        randomChecked = randomChecked + 1;
+                    } if (numberBool === true) {
+                        randomChecked = randomChecked + 1
+                    }
+                    if (symbolBool === true) {
+                        randomChecked = randomChecked + 1
+                    }
+                    console.log(length);
+
+                    let boolean_array = [
+                        { type: "lowerBool", value: lowerBool },
+                        { type: "upperBool", value: upperBool },
+                        { type: "numberBool", value: numberBool },
+                        { type: "symbolBool", value: symbolBool }
+                    ];
+
+                    for (var i = 0; i < (length - randomChecked); i++) {
+
+                        var randomCheckedNumber = Math.floor(Math.random() * (randomChecked - 1));
+
+                        if (boolean_array[randomCheckedNumber].value)
+                            add_character(boolean_array[randomCheckedNumber].type);
+                        else {
+                            for (let i = 0; i < boolean_array.length; i++) {
+                                if (boolean_array[i].value) {
+                                    add_character(boolean_array[i].type);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+
+                    for (let i = 0; i < boolean_array.length; i++) {
+                        if (boolean_array[i].value) {
+                            add_character(boolean_array[i].type);
+                        }
+                    }
+
+                    var passwordDiv = document.getElementById('passwordDiv');
+                    var p = document.createElement('p');
+                    p.style.color = 'black';
+                    p.textContent = password;
+                    passwordDiv.appendChild(p);
+
+
+
+                    navigator.clipboard.writeText(password);
+
+                    // Alert the copied text
+                    alert("Copied the password:  " + password + " to clipboard.");
+
+                    console.log(password);
+
+                }
+
+                //Add switch statement. 
+                //character: is a String that is either lowerBool, upperBool, numberBool, symbolBool 
+                function add_character(character) {
+                    switch (character) {
+                        case "lowerBool":
+                            var random = Math.floor(Math.random() * (alphaLower.length - 1));
+                            var lowerAlphaRandomChar = alphaLower.charAt(random);
+                            password = password + lowerAlphaRandomChar;
+
+                            // code block
+                            break;
+                        case "upperBool":
+                            var random = Math.floor(Math.random() * (alphaUpper.length - 1));
+                            var upperAlphaRandomChar = alphaUpper.charAt(random);
+                            password = password + upperAlphaRandomChar;
+                            // code block
+                            break;
+                        case "numberBool":
+                            var random = Math.floor(Math.random() * (numberChar.length - 1));
+                            var numberRandomChar = numberChar.charAt(random);
+                            password = password + numberRandomChar;
+                            // code block
+                            break;
+                        case "symbolBool":
+                            var random = Math.floor(Math.random() * (symbolChar.length - 1));
+                            var symbolRandomChar = symbolChar.charAt(random);
+                            password = password + symbolRandomChar;
+                            // code block
+                            break;
+                    }
+
+
+                }
+
+
+
+            </script>
+</body>
+
+</html>
